@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {Menu, Spin} from 'antd';
 import axios from "axios";
+
 import CryptoCurrencyCard from "./components/CryptoCurrencyCard.jsx";
 const App = () => {
     const [currencies, setCurrencies] = useState([]);
@@ -26,7 +27,7 @@ const App = () => {
     }
 
     const fetchCurrencyCrypto = () => {
-        axios.get(`http://127.0.0.1:8000/currencies/${currencyId}/quotes`).then((r) => {
+        axios.get(`http://127.0.0.1:8000/currencies/${currencyId}`).then((r) => {
             setCurrencyData(r.data);
         })
     }
