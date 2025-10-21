@@ -1,16 +1,20 @@
-# type: ignore
+
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Depends
 from aiohttp import ClientSession
 
+import uvicorn
+
 from fastapi.middleware.cors import CORSMiddleware
+from starlette.datastructures import State
 
 from src.config import settings
-from src.router import router as router_crypto
+from src.router.routers import router as router_crypto
 from src.services.cmc import CMCHTTPClient
 
 @asynccontextmanager
 async def lifespan(app_instance: FastAPI):
+    app_instance.state = State
     app_instance.state.cmc_client = CMCHTTPClient(api_key=settings.CMC_API_KEY)
     app_instance.state.cmc_client.session = ClientSession(timeout=app_instance.state.cmc_client.timeout)
     try:
@@ -36,6 +40,5 @@ app.add_middleware(
 
 app.include_router(router_crypto)
 
-# dependency для ручек
-def get_cmc_client(app: FastAPI = Depends()) -> CMCHTTPClient:
-    return app.state.cmc_client
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8000)

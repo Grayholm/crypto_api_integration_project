@@ -1,7 +1,8 @@
 from typing import Optional, Any
 
 from aiohttp import ClientResponseError
-from src.http-client import HTTPClient
+from src.httpclient import HTTPClient
+from async_lru import alru_cache
 
 
 class CMCHTTPClient(HTTPClient):
@@ -17,18 +18,20 @@ class CMCHTTPClient(HTTPClient):
             headers.update(extra)
         return headers
 
-
+    @alru_cache
     async def get_listings_latest(self, convert: str = "USD") -> Any:
         try:
-            return await self.get("/cryptocurrency/listings/latest", params={"convert": convert})
+            result = await self.get("/cryptocurrency/listings/latest", params={"convert": convert})
+            return result["data"]
         except ClientResponseError as e:
             print(f"Error fetching listings: {e.status} {e.message}")
             raise
 
-
+    @alru_cache
     async def get_quotes_latest(self, id: int, convert: str = "USD") -> Any:
         try:
-            return await self.get("/cryptocurrency/quotes/latest", params={"symbol": id, "convert": convert})
+            result = await self.get("/cryptocurrency/quotes/latest", params={"id": id, "convert": convert})
+            return result["data"][str(id)]
         except ClientResponseError as e:
             print(f"Error fetching quotes: {e.status} {e.message}")
             raise
