@@ -11,11 +11,12 @@ const App = () => {
     const [currencyId, setCurrencyId] = useState(1);
     const [currencyData, setCurrencyData] = useState(null);
     const [loading, setLoading] = useState(true);
+    const API_URL = '/api';
 
     const fetchCurrencies = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('http://127.0.0.1:8000/currencies/');
+            const response = await axios.get(`${API_URL}/currencies/`);
             const currenciesData = response.data;
 
             const menuItems = [
@@ -45,7 +46,7 @@ const App = () => {
     const fetchCurrencyCrypto = async () => {
         try {
             setLoading(true);
-            const response = await axios.get(`http://127.0.0.1:8000/currencies/${currencyId}`);
+            const response = await axios.get(`${API_URL}/currencies/${currencyId}`);
             setCurrencyData(response.data);
         } catch (error) {
             console.error('Error fetching currency data:', error);
