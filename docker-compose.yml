@@ -12,6 +12,8 @@ services:
   frontend:
     build: ./frontend
     container_name: 'frontend'
+    volumes:
+      - frontend_dist:/app/dist
     networks:
       - crypto_project
     depends_on:
@@ -25,7 +27,7 @@ services:
     ports:
       - "80:80"
     volumes:
-      - ./frontend/dist:/usr/share/nginx/html
+      - frontend_dist:/usr/share/nginx/html
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - frontend
@@ -34,3 +36,7 @@ services:
 networks:
   crypto_project:
     driver: bridge
+
+volumes:
+  frontend_dist:
+    driver: local
