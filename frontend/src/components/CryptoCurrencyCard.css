@@ -1,5 +1,38 @@
-@import "@fontsource/inter";
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 
 .font-inter {
     font-family: 'Inter', sans-serif;
+}
+
+/* Кастомные стили для карточки */
+.ant-card {
+    border-radius: 16px !important;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1) !important;
+}
+
+.ant-card .ant-card-body {
+    padding: 24px;
+}
+
+.ant-statistic-content {
+    font-weight: 600;
+}
+
+/* Анимации при hover */
+.ant-menu-item {
+    transition: all 0.3s ease;
+}
+
+.ant-menu-item:hover {
+    background-color: #f0f7ff !important;
+    transform: translateX(4px);
+}
+
+/* Кастомные цвета для прогресс бара */
+.ant-progress-line {
+    border-radius: 8px;
+}
+
+.ant-progress-bg {
+    border-radius: 8px;
 }
