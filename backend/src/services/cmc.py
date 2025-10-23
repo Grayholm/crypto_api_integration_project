@@ -18,7 +18,7 @@ class CMCHTTPClient(HTTPClient):
             headers.update(extra)
         return headers
 
-    @alru_cache
+    @alru_cache(ttl=600)
     async def get_listings_latest(self, convert: str = "USD") -> Any:
         try:
             result = await self.get("/cryptocurrency/listings/latest", params={"convert": convert})
@@ -27,7 +27,7 @@ class CMCHTTPClient(HTTPClient):
             print(f"Error fetching listings: {e.status} {e.message}")
             raise
 
-    @alru_cache
+    @alru_cache(ttl=600)
     async def get_quotes_latest(self, id: int, convert: str = "USD") -> Any:
         try:
             result = await self.get("/cryptocurrency/quotes/latest", params={"id": id, "convert": convert})
